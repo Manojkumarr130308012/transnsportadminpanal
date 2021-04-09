@@ -1,0 +1,532 @@
+<section class="main-content">
+    <ul class="breadcrumb breadcrumb-style ">
+      <li class="breadcrumb-item">
+        <h5 class="page-title m-b-0">KYC Verification</h5>
+      </li>
+      <li class="breadcrumb-item bcrumb-1">
+        <a routerLink="/dashboard/main">
+          <i class="fas fa-home font-17"></i></a>
+      </li>
+      <li class="breadcrumb-item">KYC</li>
+      
+    </ul>
+    <div class="section-body">
+      <!-- <div class="row">
+        <div class="col-12 col-md-12 col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              <h4>Wizard With Icons</h4>
+            </div>
+            <div class="card-body">
+              <aw-wizard [navBarLayout]="'large-empty-symbols'">
+                <aw-wizard-step>
+                  <ng-template awWizardStepSymbol>
+                    <i class="far fa-envelope"></i>
+                  </ng-template>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label">Email</label>
+                        <div class="col-md-9">
+                          <input class="form-control" name="email" type="text" placeholder="Enter email">
+                        </div>
+                      </div>
+                      <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label">Username</label>
+                        <div class="col-md-9">
+                          <input class="form-control" name="username" type="text" placeholder="Enter Username">
+                        </div>
+                      </div>
+                      <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label">Password</label>
+                        <div class="col-md-9">
+                          <input class="form-control" name="password" type="password" placeholder="Enter Password">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <ul class="list-inline wizard mb-0">
+                    <li class="next list-inline-item float-right"><button class="btn btn-primary" awNextStep>Next</button>
+                    </li>
+                  </ul>
+                </aw-wizard-step>
+  
+                <aw-wizard-step>
+                  <ng-template awWizardStepSymbol>
+                    <i class="fas fa-user-tie"></i>
+                  </ng-template>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label">First name</label>
+                        <div class="col-md-9">
+                          <input class="form-control" name="email" type="text" placeholder="Enter email">
+                        </div>
+                      </div>
+                      <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label">Last name</label>
+                        <div class="col-md-9">
+                          <input class="form-control" name="username" type="text" placeholder="Enter Username">
+                        </div>
+                      </div>
+                      <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label">Password</label>
+                        <div class="col-md-9">
+                          <input class="form-control" name="password" type="password" placeholder="Enter Password">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <ul class="list-inline wizard mb-0">
+                    <li class="previous list-inline-item"><button class="btn btn-primary" awPreviousStep>Previous</button>
+                    </li>
+                    <li class="next list-inline-item float-right"><button class="btn btn-primary" awNextStep>Next</button>
+                    </li>
+                  </ul>
+                </aw-wizard-step>
+  
+                <aw-wizard-step>
+                  <ng-template awWizardStepSymbol>
+                    <i class="fas fa-check-circle"></i>
+                  </ng-template>
+                  <div class="p-3">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="customCheck1">
+                      <label class="custom-control-label" for="customCheck1">I agree with the Terms and
+                        Conditions.</label>
+                    </div>
+                  </div>
+                  <ul class="list-inline wizard mb-0">
+                    <li class="previous list-inline-item"><button class="btn btn-primary" awPreviousStep>Previous</button>
+                    </li>
+                  </ul>
+                </aw-wizard-step>
+              </aw-wizard>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <div class="row">
+        <div class="col-12 col-md-12 col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              <h4>Kyc Verification</h4>
+            </div>
+            <div class="card-body">
+              <aw-wizard [navBarLayout]="'large-empty-symbols'">
+                <aw-wizard-step stepTitle="KYC Details">
+                  <ng-template awWizardStepSymbol>1</ng-template>
+
+
+
+                  <div class="row mt-12">
+                    <div class="col-12">
+                        <div class="form-group row" >
+                            <label class="col-sm-12 col-form-label" style="font-size: 14px;margin-top: 20px;text-align: center;">Please Select any one of the KYC document</label>
+                            <div class="col-md-12">
+                              <div class="input-group col-md-4" style="margin: auto;display: block;">
+                                <div class="custom-control custom-radio d-inline-block">
+                                  <input type="radio" id="customRadio3" (click)=showgstview() name="customRadio" class="custom-control-input">
+                                  <label class="custom-control-label" for="customRadio3">GSTIN</label>
+                                </div>
+                                <div class="custom-control custom-radio d-inline-block ml-1">
+                                  <input type="radio" id="customRadio2" (click)=showpanview() name="customRadio" class="custom-control-input">
+                                  <label class="custom-control-label" for="customRadio2">Business PAN Card</label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+
+
+                    <div *ngIf="showgst" class="col-sm-6 col-form-label" style="font-size: 14px;margin: auto;">
+                        
+                        <form class="validate-form" [formGroup]="gstForm" (ngSubmit)="onSubmit()">
+                            <div class="row">
+                              <div class="col-lg-12">
+                                <div class="form-group position-relative">
+                                  <label>GST Number <span class="text-danger">*</span></label>
+                                  <i-feather name="user" class="login-icons"></i-feather>
+                                  <input type="text" class="form-control pl-5" formControlName="numbergst" placeholder="GST Number">
+                                </div>
+                              </div>
+              
+                              <div class="col-lg-12">
+                                <div class="form-group position-relative">
+                                  <label>Name as per GST <span class="text-danger">*</span></label>
+                                  <i-feather name="user" class="login-icons"></i-feather>
+                                  <input type="text" class="form-control pl-5" formControlName="namegst"
+                                    placeholder="Name as per Gst">
+                                </div>
+                              </div>
+
+                              <div class="col-lg-12">
+                                <label>File <span class="text-danger">*</span></label>
+                                <div class="form-group position-relative">
+                                  <input type="file"  formControlName="gstfile"
+                                    placeholder="File Select" ngModel (change)="gstFiles($event)">
+                                </div>
+                              </div>
+
+                              
+                              <div *ngIf="error" class="alert alert-danger mb-3 ml-3">{{error}}</div>
+                              <div class="col-lg-12 mb-0">
+                                <button class="btn btn-primary auth-form-btn">Sumbit</button>
+                              </div>
+                            </div>
+                          </form>
+
+                    </div>
+
+                    <div *ngIf="showpan" class="col-sm-6 col-form-label" style="font-size: 14px;margin: auto;">
+
+                        <form class="validate-form" [formGroup]="panform" (ngSubmit)="onSubmit1()">
+                            <div class="row">
+                              <div class="col-lg-12">
+                                <div class="form-group position-relative">
+                                  <label>Business PAN Number <span class="text-danger">*</span></label>
+                                  <i-feather name="user" class="login-icons"></i-feather>
+                                  <input type="text" class="form-control pl-5" formControlName="numberpan" placeholder="GST Number">
+                                </div>
+                              </div>
+              
+                              <div class="col-lg-12">
+                                <div class="form-group position-relative">
+                                  <label>Name as per PAN <span class="text-danger">*</span></label>
+                                  <i-feather name="user" class="login-icons"></i-feather>
+                                  <input type="text" class="form-control pl-5" formControlName="namepan"
+                                    placeholder="Name as per Gst">
+                                </div>
+                              </div>
+
+                              <div class="col-lg-12">
+                                <label>File <span class="text-danger">*</span></label>
+                                <div class="form-group position-relative">
+                                  <input type="file"  formControlName="panfile"
+                                    placeholder="File Select" ngModel (change)="panFiles($event)">
+                                </div>
+                              </div>
+                            
+                           
+                              <div *ngIf="error" class="alert alert-danger mb-3 ml-3">{{error}}</div>
+                              <div class="col-lg-12 mb-0">
+                                <button class="btn btn-primary auth-form-btn">Sumbit</button>
+                              </div>
+                            </div>
+                          </form>
+
+                    </div>
+
+
+
+                  </div>
+                  <ul class="list-inline wizard mb-0">
+                    <li class="next list-inline-item float-right"><button class="btn btn-primary" awNextStep>Next</button>
+                    </li>
+                  </ul>
+                </aw-wizard-step>
+  
+                <aw-wizard-step stepTitle="Bank Information">
+                  <ng-template awWizardStepSymbol>2</ng-template>
+
+                  <form class="validate-form" [formGroup]="businessinformationform" (ngSubmit)="onSubmit2()">
+                    <div class="row">
+
+                        <label class="col-sm-12 col-form-label" style="font-size: 17px;margin-top: 20px">Bank Information</label>
+
+
+                      <div class="col-lg-6">
+                        <div class="form-group position-relative">
+                          <label>Account Holder Name <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control pl-5" formControlName="accountholdername" placeholder="Account Holder Name">
+                        </div>
+                      </div>
+      
+                      <div class="col-lg-6">
+                        <div class="form-group position-relative">
+                          <label>Bank Name<span class="text-danger">*</span></label>
+                          <input type="text" class="form-control pl-5" formControlName="bankname"
+                            placeholder="Bank Name">
+                        </div>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <div class="form-group position-relative">
+                          <label>Account No<span class="text-danger">*</span></label>
+                          <input type="text" class="form-control pl-5" formControlName="accountno" placeholder="Account No">
+                        </div>
+                      </div>
+      
+                      <div class="col-lg-6">
+                        <div class="form-group position-relative">
+                          <label>IFSC Code<span class="text-danger">*</span></label>
+                          <input type="text" class="form-control pl-5" formControlName="IFSCCode"
+                            placeholder="IFSC Code">
+                        </div>
+                      </div>
+
+                      <label class="col-sm-12 col-form-label" style="font-size: 17px;margin-top: 20px;">Company/Factory Information</label>
+
+
+                      <div class="col-lg-6">
+                        <div class="form-group position-relative">
+                          <label>Entrance Road<span class="text-danger">*</span></label>
+                          <input type="text" class="form-control pl-5" formControlName="EntranceRoad"
+                            placeholder="Entrance Road">
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div class="form-group position-relative">
+                          <label>Souroundings<span class="text-danger">*</span></label>
+                          <input type="text" class="form-control pl-5" formControlName="Souroundings"
+                            placeholder="Souroundings">
+                        </div>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <label>Front Image<span class="text-danger">*</span></label>
+                        <div class="form-group position-relative">
+                          <input type="file"  formControlName="Front"
+                            placeholder="Front Select">
+                        </div>
+                      </div>
+                    
+                      <div class="col-lg-6">
+                        <label>Back Image<span class="text-danger">*</span></label>
+                        <div class="form-group position-relative">
+                          <input type="file"  formControlName="Back"
+                            placeholder="Back Select">
+                        </div>
+                      </div>
+
+                      <div class="col-lg-4">
+                        <label>Inside Image<span class="text-danger">*</span></label>
+                        <div class="form-group position-relative">
+                          <input type="file"  formControlName="Inside"
+                            placeholder="Inside Select">
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <label>Inside Image<span class="text-danger">*</span></label>
+                        <div class="form-group position-relative">
+                          <input type="file"  formControlName="Inside1"
+                            placeholder="Inside Select">
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <label>Inside Image<span class="text-danger">*</span></label>
+                        <div class="form-group position-relative">
+                          <input type="file"  formControlName="Inside2"
+                            placeholder="Inside Select">
+                        </div>
+                      </div>
+                      <div class="col-lg-12">
+                        <label>Name Board Image<span class="text-danger">*</span></label>
+                        <div class="form-group position-relative">
+                          <input type="file"  formControlName="Name"
+                            placeholder="Name Select">
+                        </div>
+                      </div>
+
+
+                      <label class="col-sm-12 col-form-label" style="font-size: 17px;margin-top: 20px;">Business Information</label>
+
+                      <div class="col-lg-6">
+                        <div class="form-group position-relative">
+                          <label>Owner Name<span class="text-danger">*</span></label>
+                          <input type="text" class="form-control pl-5" formControlName="OwnerName"
+                            placeholder="Owner Name">
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div class="form-group position-relative">
+                          <label>Owner Contact no<span class="text-danger">*</span></label>
+                          <input type="text" class="form-control pl-5" formControlName="Contactcontact"
+                            placeholder="Owner Contact No">
+                        </div>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <div class="form-group position-relative">
+                          <label>Operation Manager Name<span class="text-danger">*</span></label>
+                          <input type="text" class="form-control pl-5" formControlName="OperationManager"
+                            placeholder="Operation Manager Name">
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div class="form-group position-relative">
+                          <label>Operation Manager Contact No<span class="text-danger">*</span></label>
+                          <input type="text" class="form-control pl-5" formControlName="OperationManagerContactNo"
+                            placeholder="Operation Manager Contact No">
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div class="form-group position-relative">
+                          <label>Mailing Address<span class="text-danger">*</span></label>
+                          <input type="text" class="form-control pl-5" formControlName="MailingAddress"
+                            placeholder="Mailing Address">
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div class="form-group position-relative">
+                          <label>Warehouse Address<span class="text-danger">*</span></label>
+                          <input type="text" class="form-control pl-5" formControlName="WarehouseAddress"
+                            placeholder="Warehouse Address">
+                        </div>
+                      </div>
+
+                      <div *ngIf="error" class="alert alert-danger mb-3 ml-3">{{error}}</div>
+                      <div class="col-lg-4 mb-0">
+                      </div>
+                      <div class="col-lg-4 mb-0">
+                        <button class="btn btn-primary auth-form-btn">Sumbit</button>
+                      </div>
+                      <div class="col-lg-4 mb-0">
+                       
+                      </div>
+
+
+                    </div>
+                  </form>
+
+                  <ul class="list-inline wizard mb-0">
+                    <li class="previous list-inline-item"><button class="btn btn-primary" awPreviousStep>Previous</button>
+                    </li>
+                    <li class="next list-inline-item float-right"><button class="btn btn-primary" awNextStep>Next</button>
+                    </li>
+                  </ul>
+                </aw-wizard-step>
+  
+                <aw-wizard-step stepTitle="Business Information">
+                  <ng-template awWizardStepSymbol>3</ng-template>
+
+
+                  <form class="validate-form" [formGroup]="productsinformationform" (ngSubmit)="onSubmit3()">
+                  <div class="row">
+
+                    <label class="col-sm-12 col-form-label" style="font-size: 17px;margin-top: 20px">Business Establishment Information</label>
+
+
+                  <div class="col-lg-6">
+                    <div class="form-group position-relative">
+                      <label>Establishment Year <span class="text-danger">*</span></label>
+                      <input type="text" class="form-control pl-5" formControlName="Establishmentyear" placeholder="Establishment Year">
+                    </div>
+                  </div>
+  
+                  <div class="col-lg-6">
+                    <div class="form-group position-relative">
+                      <label>Number of Products Associated with?<span class="text-danger">*</span></label>
+                      <input type="text" class="form-control pl-5" formControlName="products"
+                        placeholder="Number of Products">
+                    </div>
+                  </div>
+
+
+                  <div class="col-lg-6">
+                    <div class="form-group position-relative">
+                      <label>Associated Brands<span class="text-danger">*</span></label>
+                      <input type="text" class="form-control pl-5" formControlName="AssociatedBrands" placeholder="Associated Brands">
+                    </div>
+                  </div>
+  
+                  <div class="col-lg-6">
+                    <div class="form-group position-relative">
+                      <label>Are you having Own Brands?<span class="text-danger">*</span></label>
+                      <input type="text" class="form-control pl-5" formControlName="Brands"
+                        placeholder="Own Brands">
+                    </div>
+                  </div>
+
+
+                  <div class="col-lg-6">
+                    <div class="form-group position-relative">
+                      <label>Dealing Brands?<span class="text-danger">*</span></label>
+                      <input type="text" class="form-control pl-5" formControlName="DealingBrands"
+                        placeholder="Dealing Brands">
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6">
+                    <div class="form-group position-relative">
+                      <label>How Many days Would take for change inn designs?<span class="text-danger">*</span></label>
+                      <input type="text" class="form-control pl-5" formControlName="howmanydays"
+                        placeholder="How Many days">
+                    </div>
+                  </div>
+                  <label class="col-sm-3 col-form-label">Do you have Digital Catalogue? </label>
+                  <div class="form-group row">
+                    <div class="col-md-9">
+                      <div class="input-group col-md-9">
+                        <div class="custom-control custom-radio d-inline-block">
+                          <input type="radio" id="digitalradio1" (click)=digitalyesview() name="digitalradio"  class="custom-control-input">
+                          <label class="custom-control-label" for="digitalradio1">Yes</label>
+                        </div>
+                        <div class="custom-control custom-radio d-inline-block ml-1">
+                          <input type="radio" id="digitalradio2" (click)=digitalnoview() name="digitalradio"  class="custom-control-input">
+                          <label class="custom-control-label" for="digitalradio2">No</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <label class="col-sm-3 col-form-label">Already On Online ecommerce Platforms</label>
+                  <div class="form-group row">
+                    <div class="col-md-9">
+                      <div class="input-group col-md-9">
+                        <div class="custom-control custom-radio d-inline-block">
+                          <input type="radio" id="platformradio1"  (click)=platformyesview() name="platformradio" class="custom-control-input">
+                          <label class="custom-control-label" for="platformradio1">Yes</label>
+                        </div>
+                        <div class="custom-control custom-radio d-inline-block ml-1">
+                          <input type="radio" id="platformradio2" (click)=platformnoview() name="platformradio" class="custom-control-input">
+                          <label class="custom-control-label" for="platformradio2">No</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+               <div *ngIf="showproduct" class="col-sm-6 col-form-label">
+                  <div class="col-lg-6">
+                    <div class="form-group position-relative">
+                      <label>Please Enter the Platform Names<span class="text-danger">*</span></label>
+                      <input type="text" class="form-control pl-5" formControlName="PlatformNames"
+                        placeholder="Platform Names">
+                    </div>
+                  </div>
+              </div>
+
+              <div *ngIf="error" class="alert alert-danger mb-3 ml-3">{{error}}</div>
+                  <div class="col-lg-4 mb-0">
+                  </div>
+                  <div class="col-lg-4 mb-0">
+                    <button class="btn btn-primary auth-form-btn">Sumbit</button>
+                  </div>
+                  <div class="col-lg-4 mb-0">
+                  </div>
+                 
+                </div>
+
+                </form>
+
+                  <ul class="list-inline wizard mb-0">
+                    <li class="previous list-inline-item"><button class="btn btn-primary" awPreviousStep>Previous</button>
+                    </li>
+                  </ul>
+                </aw-wizard-step>
+              </aw-wizard>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

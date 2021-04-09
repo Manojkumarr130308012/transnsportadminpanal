@@ -1,0 +1,20 @@
+
+form.validate-form.ng-untouched.ng-pristine.ng-valid {
+    margin-top: 29px;
+}
+.brand-wrapper .logo {
+    height: 100px;
+}
+.modal-content {
+    max-width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    /* align-items: center; */
+    /* align-content: center; */
+    border: none;
+    box-shadow: 0 3px 8px rgb(0 0 0 / 5%);
+}
+.modal.show .modal-dialog {
+    transform: none;
+    width: 25%;
+}

@@ -1,0 +1,350 @@
+<section class="main-content">
+
+    <div class="section-body" style="margin-top: 20px;">
+      <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="p-10">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="row m-0">
+                    <div class="col-lg-3 p-0">
+                      <div class="ngxTableHeader">
+                        <div class="table-title">
+                          <h2><strong>Vechicle</strong></h2>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 p-0">
+                      <div class="ngxTableHeader">
+                        <div class="table-search-area">
+                          <div>
+                            <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                            <input placeholder="Search" type="text" class="browser-default search-field"
+                              (keyup)='filterDatatable($event)' aria-label="Search box">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 p-0">
+                      <div class="ngxTableHeader">
+                        <div class="header-buttons-left">
+                          <div class="icon-button-demo buttons">
+                            <button class="btn btn-icon icon-left btn-primary rounded-button" (click)='addRow(addRecord)'>
+                              <i class="material-icons">add</i>
+                            </button>
+                            <button [hidden]=!isRowSelected class="btn btn-icon icon-left btn-danger rounded-button"
+                              (click)='deleteSelected()'>
+                              <i class="material-icons">delete</i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <ngx-datatable #table class="material" [rows]="Customers" [loadingIndicator]="loadingIndicator"
+                columnMode="force" [headerHeight]="60" [footerHeight]="80" rowHeight="auto" [limit]="10"
+                [scrollbarH]="scrollBarHorizontal" [reorderable]="reorderable" [selected]="selected"
+                [selectionType]="'checkbox'" (select)='onSelect($event)'>
+  
+                <ngx-datatable-column [width]="70" [sortable]="false" [draggable]="false" [resizeable]="false"
+                  [canAutoResize]="false" [headerCheckboxable]="true" [checkboxable]="true">
+                </ngx-datatable-column>
+  
+                <ngx-datatable-column [width]="200" name="Name">
+                  <ng-template let-row="row" let-value="value" let-i="index" ngx-datatable-cell-template>
+                    <div class="name-col-style">
+                      <div>{{row.Name}}</div>   
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+          
+                <ngx-datatable-column name="VechicleType">
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.VechicleType}}
+                  </ng-template>
+                </ngx-datatable-column>
+
+
+                <ngx-datatable-column name="Capacity">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{row.Capacity}}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+
+                  <ngx-datatable-column name="Width">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{row.Width}}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+
+                <ngx-datatable-column name="Height">                  
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.Height}}
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Length">                  
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{row.Length}}
+                    </ng-template>
+                  </ngx-datatable-column>
+               
+                <ngx-datatable-column [width]="100" name="Actions" sortable="false">
+                  <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                    <span>
+                      <button class="btn btn-tbl-edit h-auto" (click)='editRow(row, rowIndex, editRecord)'>
+                        <i class="fas fa-pen"></i>
+                      </button>
+                      <button class="btn btn-tbl-delete h-auto" (click)='deleteSingleRow(row)'>
+                        <i class="far fa-trash-alt"></i>
+                      </button>
+                    </span>
+                  </ng-template>
+                </ngx-datatable-column>
+              </ngx-datatable>
+              <!-- Add Record Modal Window -->
+              <ng-template #addRecord let-modal>
+                <div class="modal-header editRowModal">
+                  <h4 class="modal-title" id="modal-basic-title">
+                    <div class="table-modal-header">
+                      <img [src]='newUserImg' alt="avatar">
+                      <div class="modal-about">
+                        <div class="font-weight-bold p-t-10 font-17">
+                          New Vechicle</div>
+                      </div>
+                    </div>
+                  </h4>
+                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true"><i class="material-icons">close</i></span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form class="register-form" [formGroup]="register" (ngSubmit)="onAddRowSave(register)">
+                    <!-- <div class="input-field col s12 d-none">
+                      <input formControlName="id" class="form-control" type="hidden">
+                    </div>
+                    <div class="input-field col s12 d-none">
+                      <input formControlName="img" class="form-control" type="hidden">
+                    </div> -->
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <label>Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="name" formControlName="Name"
+                          required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Name').valid && register.get('Name').touched">Name is
+                          required</small>
+                      </div>
+      
+                      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                        <label>VechicleType <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="VechicleType" required>
+                          <option *ngFor="let VechicleType of VechicleTypes" [value]="VechicleType.value">
+                            {{VechicleType.value}}
+                          </option>
+                        </select>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <label>Min_km<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="Min_km" formControlName="Min_km" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Min_km').valid && register.get('Min_km').touched"> Minkm is
+                          required</small>
+                      </div>
+                
+                      <div class="col-lg-6">
+                        <label>Min_price<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="Min_price" formControlName="Min_price" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Min_price').valid && register.get('Min_price').touched"> Please enter a valid
+                          Min_price</small>
+                      </div>
+                
+                      <div class="col-lg-6">
+                        <label>Price_km<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="Price_km" formControlName="Price_km" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Price_km').valid && register.get('Price_km').touched"> Please enter a 
+                          Price_km</small>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <label>Waiting_min<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="Waiting_min" formControlName="Waiting_min" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Waiting_min').valid && register.get('Waiting_min').touched"> Please enter a 
+                          Waiting_min</small>
+                      </div>
+
+
+
+                      <div class="col-lg-6">
+                        <label>Capacity<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="Capacity" formControlName="Capacity" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Capacity').valid && register.get('Capacity').touched"> Please enter a 
+                          Capacity</small>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <label>Width<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="Width" formControlName="Width" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Width').valid && register.get('Width').touched"> Please enter a 
+                          Width</small>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <label>Height<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="Height" formControlName="Height" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Height').valid && register.get('Height').touched"> Please enter a 
+                          Height</small>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <label>Length<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="Length" formControlName="Length" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Length').valid && register.get('Length').touched"> Please enter a 
+                          Length</small>
+                      </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary" [disabled]="!register.valid">Submit</button>
+                      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+                    </div>
+                  </form>
+                </div>
+              </ng-template>
+              <!-- Edit Record Modal Window -->
+              <ng-template #editRecord let-modal>
+                <div class="modal-header editRowModal">
+                  <h4 class="modal-title" id="modal-basic-title">
+                    <div class="table-modal-header">
+    
+                      <div class="modal-about">
+                        <div class="font-weight-bold p-t-10 font-17">
+                          {{selectedRowData?.Name}}
+                         </div>
+                      </div>
+                    </div>
+                  </h4>
+                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true"><i class="material-icons">close</i></span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form [formGroup]="editForm" (ngSubmit)="onEditSave(editForm)">
+                   
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label>Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Name" formControlName="Name"
+                              required>
+                            <small class="form-text text-danger"
+                              *ngIf="!editForm.get('Name').valid && editForm.get('Name').touched">Name is
+                              required</small>
+                          </div>
+          
+                          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                            <label>VechicleType <span class="text-danger">*</span></label>
+                            <select class="form-control" formControlName="VechicleType" required>
+                              <option *ngFor="let VechicleType of VechicleTypes" [value]="VechicleType.value">
+                                {{VechicleType.value}}
+                              </option>
+                            </select>
+                          </div>
+    
+                          <div class="col-lg-6">
+                            <label>Min_km<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" placeholder="Min_km" formControlName="Min_km" required>
+                            <small class="form-text text-danger"
+                              *ngIf="!editForm.get('Min_km').valid && editForm.get('Min_km').touched"> Minkm is
+                              required</small>
+                          </div>
+                    
+                          <div class="col-lg-6">
+                            <label>Min_price<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" placeholder="Min_price" formControlName="Min_price" required>
+                            <small class="form-text text-danger"
+                              *ngIf="!editForm.get('Min_price').valid && editForm.get('Min_price').touched"> Please enter a valid
+                              Min_price</small>
+                          </div>
+                    
+                          <div class="col-lg-6">
+                            <label>Price_km<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" placeholder="Price_km" formControlName="Price_km" required>
+                            <small class="form-text text-danger"
+                              *ngIf="!editForm.get('Price_km').valid && editForm.get('Price_km').touched"> Please enter a 
+                              Price_km</small>
+                          </div>
+    
+                          <div class="col-lg-6">
+                            <label>Waiting_min<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" placeholder="Waiting_min" formControlName="Waiting_min" required>
+                            <small class="form-text text-danger"
+                              *ngIf="!editForm.get('Waiting_min').valid && editForm.get('Waiting_min').touched"> Please enter a 
+                              Waiting_min</small>
+                          </div>
+    
+    
+    
+                          <div class="col-lg-6">
+                            <label>Capacity<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" placeholder="Capacity" formControlName="Capacity" required>
+                            <small class="form-text text-danger"
+                              *ngIf="!editForm.get('Capacity').valid && editForm.get('Capacity').touched"> Please enter a 
+                              Capacity</small>
+                          </div>
+    
+    
+                          <div class="col-lg-6">
+                            <label>Width<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" placeholder="Width" formControlName="Width" required>
+                            <small class="form-text text-danger"
+                              *ngIf="!editForm.get('Width').valid && editForm.get('Width').touched"> Please enter a 
+                              Width</small>
+                          </div>
+    
+                          <div class="col-lg-6">
+                            <label>Height<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" placeholder="Height" formControlName="Height" required>
+                            <small class="form-text text-danger"
+                              *ngIf="!editForm.get('Height').valid && editForm.get('Height').touched"> Please enter a 
+                              Height</small>
+                          </div>
+    
+                          <div class="col-lg-6">
+                            <label>Length<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" placeholder="Length" formControlName="Length" required>
+                            <small class="form-text text-danger"
+                              *ngIf="!editForm.get('Length').valid && editForm.get('Length').touched"> Please enter a 
+                              Length</small>
+                          </div>
+    
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary" [disabled]="!editForm.valid">Save</button>
+                      <button type="button" class="btn btn-light" (click)="modal.close()">Close</button>
+                    </div>
+                  </form>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
