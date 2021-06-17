@@ -41,6 +41,8 @@ import { ArchwizardModule } from 'angular-archwizard';
 import { KycComponent } from './kyc/kyc.component';
 import { FormsModule } from '@angular/forms';
 
+
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelPropagation: false,
@@ -61,7 +63,8 @@ export function createTranslateLoader(http: HttpClient): any {
     MainLayoutComponent,
     FooterComponent,
     NComponent,
-    KycComponent
+    KycComponent,
+ 
   ],
   imports: [
     BrowserModule,

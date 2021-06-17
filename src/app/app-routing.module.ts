@@ -32,6 +32,55 @@ const routes: Routes = [
         ),
       },
       {
+        path: 'State',
+        loadChildren: () =>
+        import('./state/state.module').then(
+          (m) => m.StateModule
+        ),
+      },
+      {
+        path: 'Company',
+        loadChildren: () =>
+        import('./company/company.module').then(
+          (m) => m.CompanyModule
+        ),
+      },
+      {
+        path: 'Branch',
+        loadChildren: () =>
+        import('./branch/branch.module').then(
+          (m) => m.BranchModule
+        ),
+      },
+      {
+        path: 'Designation',
+        loadChildren: () =>
+        import('./designation/designation.module').then(
+          (m) => m.DesignationModule
+        ),
+      }, 
+      {
+        path: 'Speciality',
+        loadChildren: () =>
+        import('./speciality/speciality.module').then(
+          (m) => m.SpecialityModule
+        ),
+      },
+      {
+        path: 'Department',
+        loadChildren: () =>
+        import('./department/department.module').then(
+          (m) => m.DepartmentModule
+        ),
+      },
+      {
+        path: 'Users',
+        loadChildren: () =>
+        import('./users/users.module').then(
+          (m) => m.UsersModule
+        ),
+      },
+      {
         path: 'GoodsType',
         loadChildren: () =>
         import('./goodstype/goodstype.module').then(

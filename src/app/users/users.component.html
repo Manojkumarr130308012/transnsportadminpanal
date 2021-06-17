@@ -1,0 +1,496 @@
+<section class="main-content">
+
+    <div class="section-body" style="margin-top: 20px;">
+      <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="p-10">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="row m-0">
+                    <div class="col-lg-3 p-0">
+                      <div class="ngxTableHeader">
+                        <div class="table-title">
+                          <h2><strong>Users</strong></h2>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 p-0">
+                      <div class="ngxTableHeader">
+                        <div class="table-search-area">
+                          <div>
+                            <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                            <input placeholder="Search" type="text" class="browser-default search-field"
+                              (keyup)='filterDatatable($event)' aria-label="Search box">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 p-0">
+                      <div class="ngxTableHeader">
+                        <div class="header-buttons-left">
+                          <div class="icon-button-demo buttons">
+                            <button class="btn btn-icon icon-left btn-primary rounded-button" (click)='addRow(addRecord)'>
+                              <i class="material-icons">add</i>
+                            </button>
+                            <button [hidden]=!isRowSelected class="btn btn-icon icon-left btn-danger rounded-button"
+                              (click)='deleteSelected()'>
+                              <i class="material-icons">delete</i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <ngx-datatable #table class="material" [rows]="Customers" [loadingIndicator]="loadingIndicator"
+                columnMode="force" [headerHeight]="60" [footerHeight]="80" rowHeight="auto" [limit]="10"
+                [scrollbarH]="scrollBarHorizontal" [reorderable]="reorderable" [selected]="selected"
+                [selectionType]="'checkbox'" (select)='onSelect($event)'>
+  
+                <ngx-datatable-column [width]="70" [sortable]="false" [draggable]="false" [resizeable]="false"
+                  [canAutoResize]="false" [headerCheckboxable]="true" [checkboxable]="true">
+                </ngx-datatable-column>
+  
+                <ngx-datatable-column [width]="200" name="Name">
+                  <ng-template let-row="row" let-value="value" let-i="index" ngx-datatable-cell-template>
+                    <div class="name-col-style">
+                      <div>{{row.Name}}</div>   
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+          
+                <ngx-datatable-column name="Phone">
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.Mobile}}
+                  </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Email">                  
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.Email}}
+                  </ng-template>
+                   </ngx-datatable-column>
+             
+               
+                <ngx-datatable-column [width]="100" name="Actions" sortable="false">
+                  <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                    <span>
+                      <button class="btn btn-tbl-edit h-auto" (click)='editRow(row, rowIndex, editRecord)'>
+                        <i class="fas fa-pen"></i>
+                      </button>
+                      <button class="btn btn-tbl-delete h-auto" (click)='deleteSingleRow(row)'>
+                        <i class="far fa-trash-alt"></i>
+                      </button>
+                    </span>
+                  </ng-template>
+                </ngx-datatable-column>
+
+
+              </ngx-datatable>
+              <!-- Add Record Modal Window -->
+              <ng-template #addRecord let-modal>
+                <div class="modal-header editRowModal">
+                  <h4 class="modal-title" id="modal-basic-title">
+                    <div class="table-modal-header">
+                      <img [src]='newUserImg' alt="avatar">
+                      <div class="modal-about">
+                        <div class="font-weight-bold p-t-10 font-17">
+                          New User</div>
+                      </div>
+                    </div>
+                  </h4>
+                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true"><i class="material-icons">close</i></span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form class="register-form" [formGroup]="register" (ngSubmit)="onAddRowSave(register)">
+                    <!-- <div class="input-field col s12 d-none">
+                      <input formControlName="id" class="form-control" type="hidden">
+                    </div>
+                    <div class="input-field col s12 d-none">
+                      <input formControlName="img" class="form-control" type="hidden">
+                    </div> -->
+                    <div class="row">
+                      
+                      
+                      <div class="col-lg-6">
+                        <label>Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Name" formControlName="Name"
+                          required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Name').valid && register.get('Name').touched">username is required</small>
+                      </div>
+      
+
+                      <div class="col-lg-6">
+                        <label>Mobile No<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="Mobile" formControlName="Mobile" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Mobile').valid && register.get('Mobile').touched"> Mobile No is required</small>
+                      </div>
+                
+                      <div class="col-lg-6">
+                        <label>Email<span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" placeholder="Email" formControlName="Email" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Email').valid && register.get('Email').touched"> Please enter a valid Email address</small>
+                      </div>
+                
+                      <div class="col-lg-6">
+                        <label>code<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Code" formControlName="Code" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Code').valid && register.get('Code').touched"> Please enter a code</small>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <label>Designation <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="Designation" required>
+                          <option value="" selected disabled>Please select Designation</option>
+                          <option *ngFor="let Designation of Designations" [value]="Designation._id">
+                            {{Designation.designation}}
+                          </option>
+                        </select>
+                        <small class="form-text text-danger"
+                        *ngIf="!register.get('Designation').valid && register.get('Designation').touched">Designation is required</small>
+                      </div>
+
+                      
+                      <div class="col-lg-6">
+                        <label>Branch <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="Branch" required>
+                          <option value="" selected disabled>Please select Branch</option>
+                          <option *ngFor="let branch of branches" [value]="branch._id">
+                            {{branch.BranchName}}
+                          </option>
+                        </select>
+                        <small class="form-text text-danger"
+                        *ngIf="!register.get('Branch').valid && register.get('Branch').touched">Branch is required</small>
+                      </div>
+
+                     
+
+
+                      <div class="col-lg-6">
+                        <label>Aadhaar <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Aadhaar" formControlName="Aadhaar"
+                          required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Aadhaar').valid && register.get('Aadhaar').touched">Aadhaar is required</small>
+                      </div>
+      
+
+                      <div class="col-lg-6">
+                        <label>PAN No<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="PAN" formControlName="PAN" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('PAN').valid && register.get('PAN').touched"> PAN No is required</small>
+                      </div>
+
+
+
+                      <div class="col-lg-6">
+                        <label>Fathername <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Fathername" formControlName="Fathername"
+                          required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Fathername').valid && register.get('Fathername').touched">Fathername is required</small>
+                      </div>
+      
+
+                      <div class="col-lg-6">
+                        <label>Fathermobile No<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Fathermobile" formControlName="Fathermobile" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Fathermobile').valid && register.get('Fathermobile').touched"> Fathermobile No is required</small>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <label>Basicpay <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Basicpay" formControlName="Basicpay"
+                          required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Basicpay').valid && register.get('Basicpay').touched">Basicpay is required</small>
+                      </div>
+      
+
+                      <div class="col-lg-6">
+                        <label>Bankdetails<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Bankdetails" formControlName="Bankdetails" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Bankdetails').valid && register.get('Bankdetails').touched"> Bankdetails No is required</small>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <label>Gender <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="Gender" required>
+                          <option value="" selected disabled>Please select</option>
+                          <option *ngFor="let gender of genders" [value]="gender.value">
+                            {{gender.value}}
+                          </option>
+                        </select>
+                        <small class="form-text text-danger"
+                        *ngIf="!register.get('Gender').valid && register.get('Gender').touched">Gender is required</small>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <label>Status <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="Status" required>
+                          <option value="" selected disabled>Please select</option>
+                          <option *ngFor="let status of statusType" [value]="status.value">
+                            {{status.value}}
+                          </option>
+                        </select>
+                        <small class="form-text text-danger"
+                        *ngIf="!register.get('Status').valid && register.get('Status').touched">Status is required</small>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <label>Remarks <span class="text-danger">*</span></label>
+                        <textarea type="text" class="form-control" placeholder="Remarks" formControlName="Remarks1"
+                          required></textarea>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Remarks1').valid && register.get('Remarks1').touched">Remarks is
+                          required</small>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <label>PF<span class="text-danger">*</span></label>
+                     <input type="file" class="form-control" placeholder="PF" formControlName="PF" (change)="selectFile($event)"required>
+                     <small class="form-text text-danger"
+                       *ngIf="!register.get('PF').valid && register.get('PF').touched">  </small>
+                   </div>
+
+                      <div class="col-lg-12">
+                        <label>Address <span class="text-danger">*</span></label>
+                        <textarea type="text" class="form-control" placeholder="Address" formControlName="Address"
+                          required></textarea>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Address').valid && register.get('Address').touched">Address is required</small>
+                      </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary" [disabled]="!register.valid">Submit</button>
+                      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+                    </div>
+                  </form>
+                </div>
+              </ng-template>
+              <!-- Edit Record Modal Window -->
+              <ng-template #editRecord let-modal>
+                <div class="modal-header editRowModal">
+                  <h4 class="modal-title" id="modal-basic-title">
+                    <div class="table-modal-header">
+                      <img [src]='selectedRowData?.img' alt="avatar">
+                      <div class="modal-about">
+                        <div class="font-weight-bold p-t-10 font-17">
+                          {{selectedRowData?.firstName}}
+                          {{selectedRowData?.lastName}}</div>
+                      </div>
+                    </div>
+                  </h4>
+                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true"><i class="material-icons">close</i></span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form [formGroup]="editForm" (ngSubmit)="onEditSave(editForm)">
+                   
+                    <div class="row">
+                        <div class="col-lg-6">
+                          <label>Name <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" placeholder="Name" formControlName="Name"
+                            required>
+                          <small class="form-text text-danger"
+                            *ngIf="!editForm.get('Name').valid && editForm.get('Name').touched">username is
+                            required</small>
+                        </div>
+      
+
+                        <div class="col-lg-6">
+                            <label>Mobile No<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" placeholder="Mobile" formControlName="Mobile" required>
+                            <small class="form-text text-danger"
+                              *ngIf="!editForm.get('Mobile').valid && editForm.get('Mobile').touched"> Mobile No is
+                              required</small>
+                          </div>
+                
+                      <div class="col-lg-6">
+                        <label>Email<span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" placeholder="Email" formControlName="Email" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!editForm.get('Email').valid && editForm.get('Email').touched"> Please enter a valid
+                          Email address</small>
+                      </div>
+                
+                      <div class="col-lg-6">
+                        <label>code<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Code" formControlName="Code" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!editForm.get('Code').valid && editForm.get('Code').touched"> Please enter a 
+                          Code</small>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <label>Designation <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="Designation" required>
+                          <option value="" selected disabled>Please select Designation</option>
+                          <option *ngFor="let Designation of Designations" [value]="Designation._id">
+                            {{Designation.designation}}
+                          </option>
+                        </select>
+                        <small class="form-text text-danger"
+                        *ngIf="!editForm.get('Designation').valid && editForm.get('Designation').touched">Designation is
+                        required</small>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <label>Branch <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="Branch" required>
+                          <option value="" selected disabled>Please select Branch</option>
+                          <option *ngFor="let branch of branches" [value]="branch._id">
+                            {{branch.BranchName}}
+                          </option>
+                        </select>
+                        <small class="form-text text-danger"
+                        *ngIf="!editForm.get('Branch').valid && editForm.get('Branch').touched">Branch is
+                        required</small>
+                      </div>
+
+                   
+
+
+                      <div class="col-lg-6">
+                        <label>Aadhaar <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Aadhaar" formControlName="Aadhaar"
+                          required>
+                        <small class="form-text text-danger"
+                          *ngIf="!editForm.get('Aadhaar').valid && editForm.get('Aadhaar').touched">Aadhaar is required</small>
+                      </div>
+      
+
+                      <div class="col-lg-6">
+                        <label>PAN No<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="PAN" formControlName="PAN" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!editForm.get('PAN').valid && editForm.get('PAN').touched"> PAN No is required</small>
+                      </div>
+
+
+
+                      <div class="col-lg-6">
+                        <label>Fathername <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Fathername" formControlName="Fathername"
+                          required>
+                        <small class="form-text text-danger"
+                          *ngIf="!editForm.get('Fathername').valid && editForm.get('Fathername').touched">Fathername is required</small>
+                      </div>
+      
+
+                      <div class="col-lg-6">
+                        <label>Fathermobile No<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Fathermobile" formControlName="Fathermobile" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!editForm.get('Fathermobile').valid && editForm.get('Fathermobile').touched"> Fathermobile No is required</small>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <label>Basicpay <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Basicpay" formControlName="Basicpay"
+                          required>
+                        <small class="form-text text-danger"
+                          *ngIf="!editForm.get('Basicpay').valid && editForm.get('Basicpay').touched">Basicpay is required</small>
+                      </div>
+      
+
+                      <div class="col-lg-6">
+                        <label>Bankdetails<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Bankdetails" formControlName="Bankdetails" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!editForm.get('Bankdetails').valid && editForm.get('Bankdetails').touched"> Bankdetails No is required</small>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <label>Gender <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="Gender" required>
+                          <option value="" selected disabled>Please select</option>
+                          <option *ngFor="let gender of genders" [value]="gender.value">
+                            {{gender.value}}
+                          </option>
+                        </select>
+                        <small class="form-text text-danger"
+                        *ngIf="!editForm.get('Gender').valid && editForm.get('Gender').touched">Gender is
+                        required</small>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <label>Status <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="Status" required>
+                          <option value="" selected disabled>Please select</option>
+                          <option *ngFor="let status of statusType" [value]="status.value">
+                            {{status.value}}
+                          </option>
+                        </select>
+                        <small class="form-text text-danger"
+                        *ngIf="!editForm.get('Status').valid && editForm.get('Status').touched">Status is
+                        required</small>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <label>Remarks <span class="text-danger">*</span></label>
+                        <textarea type="text" class="form-control" placeholder="Remarks" formControlName="Remarks1"
+                          required></textarea>
+                        <small class="form-text text-danger"
+                          *ngIf="!editForm.get('Remarks1').valid && editForm.get('Remarks1').touched">Remarks is
+                          required</small>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <label>PF<span class="text-danger">*</span></label>
+                     <input type="file" class="form-control" placeholder="PF" formControlName="PF" (change)="selectFile($event)"required>
+                     <small class="form-text text-danger"
+                       *ngIf="!editForm.get('PF').valid && editForm.get('PF').touched">  </small>
+                   </div>
+
+                      <div class="col-lg-12">
+                        <label>Address <span class="text-danger">*</span></label>
+                        <textarea type="text" class="form-control" placeholder="Address" formControlName="Address"
+                          required></textarea>
+                        <small class="form-text text-danger"
+                          *ngIf="!editForm.get('Address').valid && editForm.get('Address').touched">Address is
+                          required</small>
+                      </div>
+
+                     
+
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary" [disabled]="!editForm.valid">Save</button>
+                      <button type="button" class="btn btn-light" (click)="modal.close()">Close</button>
+                    </div>
+                  </form>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

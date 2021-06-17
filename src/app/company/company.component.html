@@ -1,0 +1,415 @@
+<section class="main-content">
+
+    <div class="section-body" style="margin-top: 20px;">
+      <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="p-10">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="row m-0">
+                    <div class="col-lg-3 p-0">
+                      <div class="ngxTableHeader">
+                        <div class="table-title">
+                          <h2><strong>Company</strong></h2>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 p-0">
+                      <div class="ngxTableHeader">
+                        <div class="table-search-area">
+                          <div>
+                            <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                            <input placeholder="Search" type="text" class="browser-default search-field"
+                              (keyup)='filterDatatable($event)' aria-label="Search box">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 p-0">
+                      <div class="ngxTableHeader">
+                        <div class="header-buttons-left">
+                          <div class="icon-button-demo buttons">
+                            <button class="btn btn-icon icon-left btn-primary rounded-button" (click)='addRow(addRecord)'>
+                              <i class="material-icons">add</i>
+                            </button>
+                            <button [hidden]=!isRowSelected class="btn btn-icon icon-left btn-danger rounded-button"
+                              (click)='deleteSelected()'>
+                              <i class="material-icons">delete</i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <ngx-datatable #table class="material" [rows]="Customers" [loadingIndicator]="loadingIndicator"
+                columnMode="force" [headerHeight]="60" [footerHeight]="80" rowHeight="auto" [limit]="10"
+                [scrollbarH]="scrollBarHorizontal" [reorderable]="reorderable" [selected]="selected"
+                [selectionType]="'checkbox'" (select)='onSelect($event)'>
+  
+                <ngx-datatable-column [width]="70" [sortable]="false" [draggable]="false" [resizeable]="false"
+                  [canAutoResize]="false" [headerCheckboxable]="true" [checkboxable]="true">
+                </ngx-datatable-column>
+  
+                <ngx-datatable-column [width]="200" name="CompanyName">
+                  <ng-template let-row="row" let-value="value" let-i="index" ngx-datatable-cell-template>
+                    <div class="name-col-style">
+                      <div>{{row.CompanyName}}</div>   
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="CompanyCode">
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.CompanyCode}}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Email">                  
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.Email}}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Phone">                  
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.PhoneNo}}
+                  </ng-template>
+                </ngx-datatable-column>
+               
+                <ngx-datatable-column [width]="100" name="Actions" sortable="false">
+                  <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                    <span>
+                      <button class="btn btn-tbl-edit h-auto" (click)='editRow(row, rowIndex, editRecord)'>
+                        <i class="fas fa-pen"></i>
+                      </button>
+                      <button class="btn btn-tbl-delete h-auto" (click)='deleteSingleRow(row)'>
+                        <i class="far fa-trash-alt"></i>
+                      </button>
+                    </span>
+                  </ng-template>
+                </ngx-datatable-column>
+              </ngx-datatable>
+              <!-- Add Record Modal Window -->
+              <ng-template #addRecord let-modal>
+                <div class="modal-header editRowModal">
+                  <h4 class="modal-title" id="modal-basic-title">
+                    <div class="table-modal-header">
+                      <img [src]='newUserImg' alt="avatar">
+                      <div class="modal-about">
+                        <div class="font-weight-bold p-t-10 font-17">
+                          New Company</div>
+                      </div>
+                    </div>
+                  </h4>
+                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true"><i class="material-icons">close</i></span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form class="register-form" [formGroup]="register" (ngSubmit)="onAddRowSave(register)">
+                    <!-- <div class="input-field col s12 d-none">
+                      <input formControlName="id" class="form-control" type="hidden">
+                    </div>
+                    <div class="input-field col s12 d-none">
+                      <input formControlName="img" class="form-control" type="hidden">
+                    </div> -->
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <label>CompanyName <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="CompanyName" formControlName="CompanyName"
+                          required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('CompanyName').valid && register.get('CompanyName').touched">CompanyName is
+                          required</small>
+                      </div>
+                      <div class="col-lg-6">
+                        <label>CompanyCode <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="CompanyCode" formControlName="CompanyCode"
+                          required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('CompanyCode').valid && register.get('CompanyCode').touched">CompanyCode is
+                          required</small>
+                      </div>
+      
+                     
+
+
+                      <div class="col-lg-6">
+                        <label>City <span class="text-danger">*</span></label>
+                        <input type="textarea" class="form-control" placeholder="City" formControlName="City"
+                          required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('City').valid && register.get('City').touched">City is
+                          required</small>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <label>State <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="state" required>
+                          <option value="" selected disabled>Please select State</option>
+                          <option *ngFor="let state of states?.response" [value]="state.StateCode">
+                            {{state.StateName}}
+                          </option>
+                        </select>
+                        <small class="form-text text-danger"
+                        *ngIf="!register.get('state').valid && register.get('state').touched">City is
+                        required</small>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <label>Country<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Country" formControlName="Country" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Country').valid && register.get('Country').touched"> Country is
+                          required</small>
+                      </div>
+                
+                      <div class="col-lg-6">
+                        <label>Pincode<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="Pincode" formControlName="Pincode" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Pincode').valid && register.get('Pincode').touched"> Please enter a valid
+                          Pincode</small>
+                      </div>
+                
+                      <div class="col-lg-6">
+                        <label>MobileNo<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="MobileNo" formControlName="MobileNo" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('MobileNo').valid && register.get('MobileNo').touched"> Please enter a 
+                          MobileNo</small>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <label>PhoneNo<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="PhoneNo" formControlName="PhoneNo" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('PhoneNo').valid && register.get('PhoneNo').touched"> Please enter a 
+                          PhoneNo</small>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <label>Email<span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" placeholder="Email" formControlName="Email" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Email').valid && register.get('Email').touched"> Please enter a 
+                          Email</small>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <label>Website<span class="text-danger">*</span></label>
+                        <input type="url" class="form-control" placeholder="Website" formControlName="Website" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Website').valid && register.get('Website').touched"> Please enter a 
+                          Website</small>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <label>GST No<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="GST" formControlName="GST" required>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('GST').valid && register.get('GST').touched"> Please enter a 
+                          GST </small>
+                      </div>
+
+
+                      <div class="col-lg-6">
+                        <label>Logo<span class="text-danger">*</span></label>
+                     <input type="file" class="form-control" placeholder="Logo" formControlName="Logo" (change)="selectFile($event)"required>
+                     <small class="form-text text-danger"
+                       *ngIf="!register.get('Logo').valid && register.get('Logo').touched">  </small>
+                   </div>
+
+                      <div class="col-lg-12">
+                        <label>Address <span class="text-danger">*</span></label>
+                        <textarea type="text" class="form-control" placeholder="Address" formControlName="Address"
+                          required></textarea>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Address').valid && register.get('Address').touched">Address is
+                          required</small>
+                      </div>
+
+                      <div class="col-lg-12">
+                        <label>Terms&Conditions<span class="text-danger">*</span></label>
+                        <angular-editor type="HTML Editor" placeholder="Terms" formControlName="Terms" required></angular-editor>
+                        <small class="form-text text-danger"
+                          *ngIf="!register.get('Terms').valid && register.get('Terms').touched"> Please enter a 
+                          Terms&Conditions </small>
+                      </div>
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary" [disabled]="!register.valid">Submit</button>
+                      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+                    </div>
+                  </form>
+                </div>
+              </ng-template>
+              <!-- Edit Record Modal Window -->
+              <ng-template #editRecord let-modal>
+                <div class="modal-header editRowModal">
+                  <h4 class="modal-title" id="modal-basic-title">
+                    <div class="table-modal-header">
+                      <img [src]='selectedRowData?.img' alt="avatar">
+                      <div class="modal-about">
+                        <div class="font-weight-bold p-t-10 font-17">
+                          {{selectedRowData?.firstName}}
+                          {{selectedRowData?.lastName}}</div>
+                      </div>
+                    </div>
+                  </h4>
+                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true"><i class="material-icons">close</i></span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form [formGroup]="editForm" (ngSubmit)="onEditSave(editForm)">
+                   
+                    <div class="row">
+                        <div class="col-lg-6">
+                          <label>CompanyName <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" placeholder="CompanyName" formControlName="CompanyName"
+                            required>
+                          <small class="form-text text-danger"
+                            *ngIf="!editForm.get('CompanyName').valid && editForm.get('CompanyName').touched">CompanyName is
+                            required</small>
+                        </div>
+                        <div class="col-lg-6">
+                          <label>CompanyCode <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" placeholder="CompanyCode" formControlName="CompanyCode"
+                            required>
+                          <small class="form-text text-danger"
+                            *ngIf="!editForm.get('CompanyCode').valid && editForm.get('CompanyCode').touched">CompanyCode is
+                            required</small>
+                        </div>
+        
+                       
+  
+                        <div class="col-lg-6">
+                          <label>City <span class="text-danger">*</span></label>
+                          <input type="textarea" class="form-control" placeholder="City" formControlName="City"
+                            required>
+                          <small class="form-text text-danger"
+                            *ngIf="!editForm.get('City').valid && editForm.get('City').touched">City is
+                            required</small>
+                        </div>
+
+                     <div class="col-lg-6">
+                        <label>State <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="state" required>
+                          <option value="" selected disabled>Please select State</option>
+                          <option *ngFor="let state of states?.response" [value]="state.StateCode">
+                            {{state.StateName}}
+                          </option>
+                        </select>
+                        <small class="form-text text-danger"
+                        *ngIf="!editForm.get('state').valid && editForm.get('state').touched">state is
+                        required</small>
+                      </div>
+  
+                        <div class="col-lg-6">
+                          <label>Country<span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" placeholder="Country" formControlName="Country" required>
+                          <small class="form-text text-danger"
+                            *ngIf="!editForm.get('Country').valid && editForm.get('Country').touched"> Country is
+                            required</small>
+                        </div>
+                  
+                        <div class="col-lg-6">
+                          <label>Pincode<span class="text-danger">*</span></label>
+                          <input type="number" class="form-control" placeholder="Pincode" formControlName="Pincode" required>
+                          <small class="form-text text-danger"
+                            *ngIf="!editForm.get('Pincode').valid && editForm.get('Pincode').touched"> Please enter a valid
+                            Pincode</small>
+                        </div>
+                  
+                        <div class="col-lg-6">
+                          <label>MobileNo<span class="text-danger">*</span></label>
+                          <input type="number" class="form-control" placeholder="MobileNo" formControlName="MobileNo" required>
+                          <small class="form-text text-danger"
+                            *ngIf="!editForm.get('password').valid && editForm.get('MobileNo').touched"> Please enter a 
+                            MobileNo</small>
+                        </div>
+  
+  
+                        <div class="col-lg-6">
+                          <label>PhoneNo<span class="text-danger">*</span></label>
+                          <input type="number" class="form-control" placeholder="PhoneNo" formControlName="PhoneNo" required>
+                          <small class="form-text text-danger"
+                            *ngIf="!editForm.get('PhoneNo').valid && editForm.get('PhoneNo').touched"> Please enter a 
+                            PhoneNo</small>
+                        </div>
+  
+                        <div class="col-lg-6">
+                          <label>Email<span class="text-danger">*</span></label>
+                          <input type="email" class="form-control" placeholder="Email" formControlName="Email" required>
+                          <small class="form-text text-danger"
+                            *ngIf="!editForm.get('Email').valid && editForm.get('Email').touched"> Please enter a 
+                            Email</small>
+                        </div>
+  
+  
+                        <div class="col-lg-6">
+                          <label>Website<span class="text-danger">*</span></label>
+                          <input type="url" class="form-control" placeholder="Website" formControlName="Website" required>
+                          <small class="form-text text-danger"
+                            *ngIf="!editForm.get('Website').valid && editForm.get('Website').touched"> Please enter a 
+                            Website</small>
+                        </div>
+  
+  
+                        <div class="col-lg-6">
+                          <label>GST No<span class="text-danger">*</span></label>
+                          <input type="number" class="form-control" placeholder="GST" formControlName="GST" required>
+                          <small class="form-text text-danger"
+                            *ngIf="!editForm.get('GST').valid && editForm.get('GST').touched"> Please enter a 
+                            GST </small>
+                        </div>
+  
+  
+
+
+
+                     <div class="col-lg-6">
+                             <label>Logo<span class="text-danger">*</span></label>
+                          <input type="file" class="form-control" placeholder="Logo" formControlName="Logo" (change)="selectFile($event)"required>
+                          <small class="form-text text-danger"
+                            *ngIf="!editForm.get('Logo').valid && editForm.get('Logo').touched">  </small>
+                        </div>
+
+                        <div class="col-lg-12">
+                          <label>Address <span class="text-danger">*</span></label>
+                          <textarea type="text" class="form-control" placeholder="Address" formControlName="Address"
+                            required></textarea>
+                          <small class="form-text text-danger"
+                            *ngIf="!editForm.get('Address').valid && editForm.get('Address').touched">Address is
+                            required</small>
+                        </div>
+  
+                        <div class="col-lg-12">
+                          <label>Terms&Conditions<span class="text-danger">*</span></label>
+                          <angular-editor type="HTML Editor"  placeholder="Terms" formControlName="Terms" required></angular-editor>
+                          <small class="form-text text-danger"
+                            *ngIf="!editForm.get('Terms').valid && editForm.get('Terms').touched"> Please enter a 
+                            Terms&Conditions </small>
+                        </div>
+  
+                      </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary" [disabled]="!editForm.valid">Save</button>
+                      <button type="button" class="btn btn-light" (click)="modal.close()">Close</button>
+                    </div>
+                  </form>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

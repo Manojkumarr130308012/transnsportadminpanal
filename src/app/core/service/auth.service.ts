@@ -25,7 +25,7 @@ export class AuthService {
 
   login(phone: string, password: string) {
     return this.http
-      .post<any>('https://transportapibackend.herokuapp.com/customer/login', {
+      .post<any>('https://herbocare.herokuapp.com/user/login', {
         phone,
         password,
       })

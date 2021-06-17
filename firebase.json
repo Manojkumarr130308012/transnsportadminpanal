@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/Tranzport",
+    "public": "dist/Herbocare",
     "ignore": [
       "firebase.json",
       "**/.*",
